@@ -1,5 +1,5 @@
 import { ITodoActions } from '~/app/containers/Todos/actions';
-import { TodoState, initialState } from '~/app/containers/Todos/models';
+import { TodoState, initialState, ITodoModel } from '~/app/containers/Todos/models';
 import {
   ADD_TODO,
   EDIT_TODO,
@@ -14,14 +14,15 @@ const uuid = require('uuid/v4');
 export const todoReducer = (state: TodoState = initialState, action: ITodoActions): TodoState => {
   switch (action.type) {
     case ADD_TODO:
+      const newTodo: ITodoModel = {
+        id: uuid(),
+        text: action.text,
+        due: action.due,
+        completed: action.completed
+      };
       return {
         ...state,
-        todos: state.todos.concat({
-          id: uuid(),
-          text: action.text,
-          due: action.due,
-          completed: action.completed
-        })
+        todos: state.todos ? state.todos.concat([newTodo]) : [newTodo]
       };
     case SET_SESSION_TODOS:
       return {
