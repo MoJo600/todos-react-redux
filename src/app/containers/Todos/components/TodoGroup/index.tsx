@@ -12,7 +12,7 @@ import {
 export interface ITodoGroupProps {
   className?: string;
   todos: ITodoModel[];
-  totalTodos: number;
+  numOfIncompleteTodos: number;
   editTodo: EditTodo;
   toggleAddTodoView: ToggleAddTodoView;
   completeTodo: CompleteTodo;
@@ -30,7 +30,7 @@ export class TodoGroupComponent extends React.Component<ITodoGroupProps> {
     super(props, context);
   }
 
-  renderHeaderText = () => `${this.props.groupType} - ${this.props.totalTodos} Tasks`;
+  renderHeaderText = () => `${this.props.groupType} - ${this.props.numOfIncompleteTodos} Tasks`;
 
   renderHeaderSection = () => {
     return (

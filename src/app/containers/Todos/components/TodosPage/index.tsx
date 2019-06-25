@@ -23,6 +23,8 @@ export class TodoPageComponent extends React.Component<ITodosPageProps> {
 
   todayDate = moment(new Date().toISOString());
 
+  isIncompleteTodo = (todo: ITodoModel) => !todo.completed;
+
   getOverdueTodos = () => {
     return this.props.todos
       ? this.props.todos.filter((todo) => {
@@ -61,13 +63,15 @@ export class TodoPageComponent extends React.Component<ITodosPageProps> {
   render() {
     const { editTodo, completeTodo, toggleAddTodoView, deleteTodo } = this.props.actions;
     const todayTodos = this.getTodayTodos();
+    const incompleteToday = todayTodos.filter(this.isIncompleteTodo);
     const overdueTodos = this.getOverdueTodos();
+    const incompleteOverdue = overdueTodos.filter(this.isIncompleteTodo);
     return (
       <div className={this.props.className}>
         <Header />
         <TodoGroupComponent
           groupType={TodoGroupTypes.TODAY}
-          totalTodos={todayTodos.length}
+          numOfIncompleteTodos={incompleteToday.length}
           todos={todayTodos}
           editTodo={editTodo}
           completeTodo={completeTodo}
@@ -76,7 +80,7 @@ export class TodoPageComponent extends React.Component<ITodosPageProps> {
         />
         <TodoGroupComponent
           groupType={TodoGroupTypes.OVERDUE}
-          totalTodos={overdueTodos.length}
+          numOfIncompleteTodos={incompleteOverdue.length}
           todos={overdueTodos}
           editTodo={editTodo}
           completeTodo={completeTodo}
